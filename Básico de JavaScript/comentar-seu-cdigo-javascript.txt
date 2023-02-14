@@ -1,0 +1,4 @@
+//exemplo de comentario de uma linha
+/*exemplo de
+comentario de
+varias linhas */
