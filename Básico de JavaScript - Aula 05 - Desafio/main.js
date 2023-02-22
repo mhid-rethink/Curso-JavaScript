@@ -1,6 +1,6 @@
 import {pokemons} from "./data.js";
 import {typesTranslation} from "./typesTranslation.js";
-const search = (originalPokemonArray, property, propertyValue) => {
+const resultPokemonSearch = (originalPokemonArray, property, propertyValue) => {
     let pokemonArray = [];
     for(let i = 0; i < originalPokemonArray.length; i++) {
         if (!(originalPokemonArray[i][property] instanceof Array) && originalPokemonArray[i][property] == propertyValue) {
@@ -16,7 +16,7 @@ const search = (originalPokemonArray, property, propertyValue) => {
     }
 }
 
-const findUniqueItensFromArray = (originalPokemonArray,property) => {
+const uniqueItensFromArray = (originalPokemonArray,property) => {
     const types = []
     for(let i = 0; i < originalPokemonArray.length; i++) {
         for (let j = 0; j < originalPokemonArray[i][property].length; j++) {
@@ -28,7 +28,7 @@ const findUniqueItensFromArray = (originalPokemonArray,property) => {
     return types
 }
 
-const translateTypeToPortuguese = (originalPokemonArray) => {
+const pokemonArrayWithTranslatedType = (originalPokemonArray) => {
     for(let i = 0; i < originalPokemonArray.length; i++) {
         for (let j = 0; j < originalPokemonArray[i]["type"].length; j++) {
             if ( typesTranslation[ originalPokemonArray[i]["type"][j] ] ) {
@@ -38,6 +38,6 @@ const translateTypeToPortuguese = (originalPokemonArray) => {
     }
     return originalPokemonArray;
 }
-console.log(search(pokemons, "name","ekans"));
-console.log(findUniqueItensFromArray(pokemons,"type"));
-console.log(translateTypeToPortuguese(pokemons));
+console.log(resultPokemonSearch(pokemons, "name","ekans"));
+console.log(uniqueItensFromArray(pokemons,"type"));
+console.log(pokemonArrayWithTranslatedType(pokemons));
