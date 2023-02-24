@@ -4,8 +4,8 @@ const doubledNumber = (number) => number * 2;
 const fullName = (firstName, lastName) => firstName + " " + lastName;
 // console.log(fullName("Matheus", "Dias"));
 
-const stringLength = (texto) =>
-  `o tamanho de ${texto} é: ` + texto.length + " caracteres";
+const stringLength = (text) =>
+  `o tamanho de ${text} é: ` + text.length + " caracteres";
 // console.log(stringLength("Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu"));
 
 let alerts = [
