@@ -1,0 +1,14 @@
+{
+  "name": "desafio_testes_unitarios",
+  "version": "1.0.0",
+  "description": "",
+  "main": "functions.js",
+  "scripts": {
+    "test": "jest --watchAll"
+  },
+  "author": "Matheus Dias",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}

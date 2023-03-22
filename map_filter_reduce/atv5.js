@@ -13,36 +13,38 @@ const voters = [
   { name: "Zack", age: 19, voted: false },
 ];
 
-const voterResults = voters.reduce(
-  (votersCount, curr) => {
-    if (curr.age < 30) {
-      if (curr.voted) {
-        votersCount.numYoungVotes++;
-      }
-      votersCount.numYoungPeople++;
-    } else if (curr.age < 40) {
-      if (curr.voted) {
-        votersCount.numMidVotesPeople++;
-      }
-      votersCount.numMidPeople++;
-    } else {
-      if (curr.voted) {
-        votersCount.numOldVotesPeople++;
-      }
-      votersCount.numOldsPeople++;
-    }
+const voterResults = {
+  numYoungVotes: 0,
+  numYoungPeople: 0,
+  numMidVotesPeople: 0,
+  numMidPeople: 0,
+  numOldVotesPeople: 0,
+  numOldsPeople: 0,
+};
+voterResults.numYoungPeople = voters
+  .filter((voter) => voter.age < 30)
+  .reduce((acc, element) => acc + 1, 0);
 
-    return votersCount;
-  },
-  {
-    numYoungVotes: 0,
-    numYoungPeople: 0,
-    numMidVotesPeople: 0,
-    numMidPeople: 0,
-    numOldVotesPeople: 0,
-    numOldsPeople: 0,
-  }
-);
+voterResults.numYoungVotes = voters
+  .filter((voter) => voter.age < 30 && voter.voted)
+  .reduce((acc, element) => acc + 1, 0);
+
+voterResults.numMidPeople = voters
+  .filter((voter) => voter.age >= 30 && voter.age < 40)
+  .reduce((acc, element) => acc + 1, 0);
+
+voterResults.numMidVotesPeople = voters
+  .filter((voter) => voter.age >= 30 && voter.age < 40 && voter.voted)
+  .reduce((acc, element) => acc + 1, 0);
+
+voterResults.numOldsPeople = voters
+  .filter((voter) => voter.age >= 40)
+  .reduce((acc, element) => acc + 1, 0);
+
+voterResults.numOldVotesPeople = voters
+  .filter((voter) => voter.age >= 40 && voter.voted)
+  .reduce((acc, element) => acc + 1, 0);
+
 console.log(voterResults); // seu código aqui // Returned value shown below:
 /*
 { numYoungVotes: 1, // número de eleitores jovens que votaram
