@@ -1,4 +1,3 @@
-const { describe } = require("node:test");
 const fn = require("./functions");
 
 describe("doubleANumber", () => {
@@ -6,6 +5,12 @@ describe("doubleANumber", () => {
     const input = 3;
     const result = fn.doubleANumber(input) / input;
     expect(result).toBe(2);
+  });
+
+  it("should return a number divisible by 2", () => {
+    const input = 3;
+    const result = fn.doubleANumber(input) % 2;
+    expect(result).toBe(0);
   });
 });
 
@@ -26,6 +31,12 @@ describe("calculateTheLenghtOfAString2", () => {
     const input = "teste unitário";
     const result = fn.calculateTheLenghtOfAString2(input);
     expect(result).toBe(input.length);
+  });
+
+  it("should return a number", () => {
+    const input = "teste unitário";
+    const result = fn.calculateTheLenghtOfAString2(input);
+    expect(typeof result).toBe("number");
   });
 });
 
@@ -67,6 +78,7 @@ describe("addNewLanguage", () => {
     const result = fn.addNewLanguage(programming, "Kotlin");
     expect(result.languages).toEqual(expect.arrayContaining(["Kotlin"]));
   });
+
   it("should return the object an array with one more element than the input", () => {
     const programming = {
       languages: ["JavaScript", "Python", "Ruby"],
