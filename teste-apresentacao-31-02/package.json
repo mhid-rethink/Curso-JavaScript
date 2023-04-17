@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "name": "teste-apresentacao-31-02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "composition.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.29.4"
+  }
+}
