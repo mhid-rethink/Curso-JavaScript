@@ -72,6 +72,14 @@ const selectById = async (id: string) => {
 };
 
 const udpateProduct = async (id: string, updatedProduct: ProductParams) => {
+  const categoryId = await productsRepositories.verifyCategory(
+    updatedProduct.category!
+  );
+
+  if (!categoryId.length) {
+    throw makeError({ message: "Categoria não existe", status: 400 });
+  }
+
   const verifyProduct = await productsRepositories.selectProductById(id);
 
   if (!verifyProduct.length) {

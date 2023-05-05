@@ -41,7 +41,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
     const updatedProduct = req.body;
     const id = req.params.id;
 
-    const product = await productsServices.udpateProduct(id, updatedProduct);
+    await productsServices.udpateProduct(id, updatedProduct);
 
     res.send({ msg: "productUpdated" });
   } catch (error) {
