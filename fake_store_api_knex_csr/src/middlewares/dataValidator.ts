@@ -63,19 +63,23 @@ const productDataValidator = async (
   }
 };
 
-const categoryPathValidator = async (
+const categoryIdValidator = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const paramsData = req.params;
+    const categoryData = req.body;
 
     const paramsSchema = object({
-      category: string().required("Nome da categoria é obrigatório"),
+      category: string().required("Id é obrigatório"),
     });
 
-    await paramsSchema.validate(paramsData);
+    const categorySchema = object({
+      name: string().required("Nome da categoria é obrigatório"),
+    });
+
+    await categorySchema.validate(categoryData);
     next();
   } catch (error) {
     next(error);
@@ -122,7 +126,7 @@ const categoriesDataValidator = async (
 export default {
   productDataValidator,
   productPathValidator,
-  categoryPathValidator,
+  categoryIdValidator,
   categoriesIdValidator,
   categoriesDataValidator,
 };

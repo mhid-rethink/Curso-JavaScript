@@ -1,6 +1,5 @@
 import { makeError } from "../middlewares/errorHandler";
 import productsRepositories from "../repositories/productsRepositories";
-import { makeError } from "../middlewares/errorHandler";
 
 type ProductParams = {
   title: string;

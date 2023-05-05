@@ -7,7 +7,7 @@ const category: Router = Router();
 categories.get("/", categoriesController.index);
 category.get(
   "/:category",
-  middleware.categoryPathValidator,
+  middleware.categoryIdValidator,
   categoriesController.show
 );
 categories.post("/", categoriesController.insert);
