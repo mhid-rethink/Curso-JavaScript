@@ -1,25 +1,5 @@
 import { Response, Request, NextFunction } from "express";
 import categoryServices from "../services/categoryServices";
-import knex from "knex";
-import config from "../../knexfile";
-
-const knexInstance = knex(config);
-
-type Category = {
-  id?: number;
-  name: string;
-};
-
-type Product = {
-  id?: number;
-  title: string;
-  price: number;
-  description: string;
-  image: string;
-  rate: number;
-  count: number;
-  category: string;
-};
 
 const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -76,6 +56,7 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 
     res.status(200).json({ msg: "Categoria deletada" });
   } catch (error) {
+    next(error);
     next(error);
   }
 };

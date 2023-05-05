@@ -6,21 +6,6 @@ type Category = {
   name: string;
 };
 
-type Product = {
-  title: string;
-  pice: number;
-  description: string;
-  image: string;
-  rating?: {
-    rate: number;
-    count: number;
-  };
-  rate?: number;
-  count?: number;
-  category?: string;
-  category_id?: number;
-};
-
 const selectAll = async () => {
   const categories = await categoryRepositories.selectAllCategories();
   const reducer = (acc: string[], curr: Category): string[] => {
@@ -41,6 +26,10 @@ const selectProductByCategory = async (category: string) => {
   const products = await categoryRepositories.selectProductsByCategory(
     categoryId
   );
+  if (!products.length) {
+    throw makeError({ message: "Produtos não encontrados", status: 404 });
+  }
+
   const formatedProducts = products.map((product) => ({
     id: product.id,
     title: product.title,
@@ -76,11 +65,18 @@ const updateCategoryById = async (id: string, name: string) => {
 };
 
 const deleteCategoryById = async (id: string) => {
-  const findCategory = await categoryRepositories.verifyCategory(id);
-  if (!findCategory.length) {
+  const findCategory = await categoryRepositories.selectCategoryById(id);
+  if (!findCategory) {
     throw makeError({ message: "Essa categoria não existe", status: 400 });
   }
+
   const category = await categoryRepositories.deleteCategory(id);
+  if (!category) {
+    throw makeError({
+      message: "Categoria não pôde ser deletada",
+      status: 409,
+    });
+  }
 };
 
 export default {

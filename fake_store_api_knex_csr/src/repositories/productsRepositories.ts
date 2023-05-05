@@ -58,8 +58,6 @@ const selectProductById = async (id: string) => {
 };
 
 const udpateProductById = async (id: string, updatedProduct: Product) => {
-  console.log("entrei em updateProductById");
-
   return await knexInstance("products")
     .update(updatedProduct)
     .where({ id: id });

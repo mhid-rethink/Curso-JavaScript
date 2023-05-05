@@ -31,7 +31,7 @@ const insert = async (req: Request, res: Response, next: NextFunction) => {
       id: newProduct[0],
       ...product,
     });
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
@@ -44,7 +44,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
     const product = await productsServices.udpateProduct(id, updatedProduct);
 
     res.send({ msg: "productUpdated" });
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
@@ -55,7 +55,7 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
     await productsServices.deleteProduct(id);
 
     res.status(200).json({ msg: "Produto deletado" });
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };

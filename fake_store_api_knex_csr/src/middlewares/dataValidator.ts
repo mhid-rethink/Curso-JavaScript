@@ -10,9 +10,7 @@ export const productPathValidator = async (
     const paramsData = parseInt(req.params.id);
     const productData = req.body;
 
-    const paramsSchema = object({
-      id: string().required("Id é obrigatório"),
-    });
+    const paramsSchema = number().required("Id é obrigatório").min(1);
 
     const productSchema = object({
       title: string(),

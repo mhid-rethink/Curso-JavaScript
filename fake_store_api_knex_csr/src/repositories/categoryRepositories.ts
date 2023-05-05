@@ -53,6 +53,7 @@ const deleteCategory = async (id: string) => {
 export default {
   selectAllCategories,
   verifyCategory,
+  selectCategoryById,
   selectProductsByCategory,
   insertCategory,
   updateCategory,

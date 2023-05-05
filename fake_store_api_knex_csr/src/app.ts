@@ -1,3 +1,4 @@
+import { errorHandler } from "./middlewares/errorHandler";
 import express, { Request, Response } from "express";
 import { router } from "./routes";
 
@@ -11,6 +12,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/", router);
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Listening on port: ${port}`);

@@ -1,5 +1,6 @@
 import { makeError } from "../middlewares/errorHandler";
 import productsRepositories from "../repositories/productsRepositories";
+import { makeError } from "../middlewares/errorHandler";
 
 type ProductParams = {
   title: string;
@@ -26,7 +27,7 @@ const createProduct = async (product: ProductParams) => {
   );
 
   if (!categoryId.length) {
-    throw makeError({ message: "Essa categoria não existe!", status: 400 });
+    throw makeError({ message: "Categoria não existe", status: 400 });
   }
 
   const insertedProduct = await productsRepositories.insertProduct({
@@ -51,10 +52,11 @@ const selectAll = async () => {
 };
 
 const selectById = async (id: string) => {
-  const products = await productsRepositories.selectProductById(id);
+  const products: ProductParams[] =
+    await productsRepositories.selectProductById(id);
 
   if (!products.length) {
-    throw makeError({ message: "Esse produto não existe!", status: 400 });
+    throw makeError({ message: "Esse produto não existe", status: 400 });
   }
 
   const productsMap = products.map((product) => {
@@ -69,10 +71,12 @@ const selectById = async (id: string) => {
 
   return productsMap;
 };
+
 const udpateProduct = async (id: string, updatedProduct: ProductParams) => {
-  const products = await productsRepositories.selectProductById(id);
-  if (!products.length) {
-    throw makeError({ message: "Esse produto não existe!", status: 400 });
+  const verifyProduct = await productsRepositories.selectProductById(id);
+
+  if (!verifyProduct.length) {
+    throw makeError({ message: "Esse produto não existe", status: 400 });
   }
 
   const newProduct = { ...updatedProduct, ...updatedProduct.rating };
@@ -80,7 +84,6 @@ const udpateProduct = async (id: string, updatedProduct: ProductParams) => {
     const category = await productsRepositories.verifyCategory(
       newProduct.category!
     );
-    console.log(category);
 
     if (category.length) {
       newProduct.category_id = category[0].id;
@@ -89,14 +92,17 @@ const udpateProduct = async (id: string, updatedProduct: ProductParams) => {
 
   delete newProduct.category;
   delete newProduct.rating;
-  console.log(newProduct);
 
   return await productsRepositories.udpateProductById(id, newProduct);
 };
+
 const deleteProduct = async (id: string) => {
-  const product = await productsRepositories.deleteProductById(id);
-  if (!product) throw new Error("Esse produto não existe");
+  const book = await productsRepositories.deleteProductById(id);
+  if (!book) {
+    throw makeError({ message: "Esse produto não existe", status: 400 });
+  }
 };
+
 export default {
   createProduct,
   selectAll,
