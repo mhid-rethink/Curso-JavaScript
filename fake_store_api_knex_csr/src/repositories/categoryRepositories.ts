@@ -58,5 +58,4 @@ export default {
   insertCategory,
   updateCategory,
   deleteCategory,
-  selectCategoryById,
 };
