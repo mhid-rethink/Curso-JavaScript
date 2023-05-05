@@ -1,3 +1,4 @@
+import { makeError } from "../middlewares/errorHandler";
 import categoryRepositories from "../repositories/categoryRepositories";
 
 type Category = {
@@ -32,6 +33,10 @@ const selectAll = async () => {
 
 const selectProductByCategory = async (category: string) => {
   const findCategory = await categoryRepositories.verifyCategory(category);
+  if (!findCategory.length) {
+    throw makeError({ message: "Essa categoria não existe", status: 400 });
+  }
+
   const categoryId = findCategory[0].id;
   const products = await categoryRepositories.selectProductsByCategory(
     categoryId
@@ -52,17 +57,30 @@ const selectProductByCategory = async (category: string) => {
 };
 
 const insertCategory = async (name: string) => {
+  const findCategory = await categoryRepositories.verifyCategory(name);
+  if (findCategory.length) {
+    throw makeError({ message: "Essa categoria já existe", status: 422 });
+  }
+
   return await categoryRepositories.insertCategory(name);
 };
 
 const updateCategoryById = async (id: string, name: string) => {
+  const findCategory = await categoryRepositories.verifyCategory(id);
+  if (!findCategory.length) {
+    throw makeError({ message: "Essa categoria não existe", status: 400 });
+  }
+
   const updatedData: Category = { name };
   return await categoryRepositories.updateCategory(id, updatedData);
 };
 
 const deleteCategoryById = async (id: string) => {
+  const findCategory = await categoryRepositories.verifyCategory(id);
+  if (!findCategory.length) {
+    throw makeError({ message: "Essa categoria não existe", status: 400 });
+  }
   const category = await categoryRepositories.deleteCategory(id);
-  if (!category) throw new Error("Essa categoria não existe");
 };
 
 export default {

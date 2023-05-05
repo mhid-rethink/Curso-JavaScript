@@ -1,3 +1,4 @@
+import { makeError } from "../middlewares/errorHandler";
 import productsRepositories from "../repositories/productsRepositories";
 
 type ProductParams = {
@@ -25,7 +26,7 @@ const createProduct = async (product: ProductParams) => {
   );
 
   if (!categoryId.length) {
-    throw new Error("Categoria não existe");
+    throw makeError({ message: "Essa categoria não existe!", status: 400 });
   }
 
   const insertedProduct = await productsRepositories.insertProduct({
@@ -53,7 +54,7 @@ const selectById = async (id: string) => {
   const products = await productsRepositories.selectProductById(id);
 
   if (!products.length) {
-    throw new Error("Esse livro não existe!");
+    throw makeError({ message: "Esse produto não existe!", status: 400 });
   }
 
   const productsMap = products.map((product) => {
@@ -69,7 +70,10 @@ const selectById = async (id: string) => {
   return productsMap;
 };
 const udpateProduct = async (id: string, updatedProduct: ProductParams) => {
-  console.log("entrei em updateProduct");
+  const products = await productsRepositories.selectProductById(id);
+  if (!products.length) {
+    throw makeError({ message: "Esse produto não existe!", status: 400 });
+  }
 
   const newProduct = { ...updatedProduct, ...updatedProduct.rating };
   if (newProduct.category) {
@@ -90,8 +94,8 @@ const udpateProduct = async (id: string, updatedProduct: ProductParams) => {
   return await productsRepositories.udpateProductById(id, newProduct);
 };
 const deleteProduct = async (id: string) => {
-  const book = await productsRepositories.deleteProductById(id);
-  if (!book) throw new Error("Esse produto não existe");
+  const product = await productsRepositories.deleteProductById(id);
+  if (!product) throw new Error("Esse produto não existe");
 };
 export default {
   createProduct,

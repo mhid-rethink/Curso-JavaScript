@@ -18,6 +18,10 @@ const verifyCategory = async (category: string) => {
     .where({ name: category });
 };
 
+const selectCategoryById = async (id: string) => {
+  return await knexInstance("categories").select("id").where({ id });
+};
+
 const selectProductsByCategory = async (id: string) => {
   return await knexInstance("products")
     .select(
@@ -53,4 +57,5 @@ export default {
   insertCategory,
   updateCategory,
   deleteCategory,
+  selectCategoryById,
 };

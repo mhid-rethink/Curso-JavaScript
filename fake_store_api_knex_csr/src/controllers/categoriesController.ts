@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import categoryServices from "../services/categoryServices";
 import knex from "knex";
 import config from "../../knexfile";
@@ -21,16 +21,16 @@ type Product = {
   category: string;
 };
 
-const index = async (req: Request, res: Response) => {
+const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const categoriesNames = await categoryServices.selectAll();
     res.status(200).json(categoriesNames);
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
 
-const show = async (req: Request, res: Response) => {
+const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const category: string = req.params.category;
     const formatedProducts = await categoryServices.selectProductByCategory(
@@ -39,11 +39,11 @@ const show = async (req: Request, res: Response) => {
 
     res.status(200).json(formatedProducts);
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
 
-const insert = async (req: Request, res: Response) => {
+const insert = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const name = req.body.name;
 
@@ -51,11 +51,11 @@ const insert = async (req: Request, res: Response) => {
 
     res.status(201).json({ id: id[0], name });
   } catch (error: any) {
-    res.status(500).send(error.message ? { error: error.message } : error);
+    next(error);
   }
 };
 
-const update = async (req: Request, res: Response) => {
+const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id: string = req.params.id;
     const name = req.body.name;
@@ -64,11 +64,11 @@ const update = async (req: Request, res: Response) => {
 
     res.status(200).json({ msg: "categoryUpdated" });
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
 
-const remove = async (req: Request, res: Response) => {
+const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id: string = req.params.id;
 
@@ -76,7 +76,7 @@ const remove = async (req: Request, res: Response) => {
 
     res.status(200).json({ msg: "Categoria deletada" });
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
 export default { index, show, insert, update, remove };

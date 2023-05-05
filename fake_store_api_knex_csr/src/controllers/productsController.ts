@@ -1,17 +1,17 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import productsServices from "../services/productsServices";
 
-const index = async (req: Request, res: Response) => {
+const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const productsMap = await productsServices.selectAll();
 
     res.status(200).json(productsMap);
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
 
-const show = async (req: Request, res: Response) => {
+const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
 
@@ -19,11 +19,11 @@ const show = async (req: Request, res: Response) => {
 
     res.status(200).json(productsMap[0]);
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
 
-const insert = async (req: Request, res: Response) => {
+const insert = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const product = req.body;
     const newProduct = await productsServices.createProduct(product);
@@ -32,11 +32,11 @@ const insert = async (req: Request, res: Response) => {
       ...product,
     });
   } catch (error: any) {
-    res.status(500).send(error.message ? { error: error.message } : error);
+    next(error);
   }
 };
 
-const update = async (req: Request, res: Response) => {
+const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const updatedProduct = req.body;
     const id = req.params.id;
@@ -45,18 +45,18 @@ const update = async (req: Request, res: Response) => {
 
     res.send({ msg: "productUpdated" });
   } catch (error: any) {
-    console.log(error.message);
+    next(error);
   }
 };
 
-const remove = async (req: Request, res: Response) => {
+const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     await productsServices.deleteProduct(id);
 
     res.status(200).json({ msg: "Produto deletado" });
   } catch (error: any) {
-    res.send(error.message ? { error: error.message } : error);
+    next(error);
   }
 };
 
