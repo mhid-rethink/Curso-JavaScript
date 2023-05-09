@@ -51,32 +51,42 @@ const insertCategory = async (name: string) => {
     throw makeError({ message: "Essa categoria já existe", status: 422 });
   }
 
-  return await categoryRepositories.insertCategory(name);
+  const id: number[] = await categoryRepositories.insertCategory(name);
+  return { id: id[0], name };
 };
 
 const updateCategoryById = async (id: string, name: string) => {
-  const findCategory = await categoryRepositories.verifyCategory(id);
+  const findCategory = await categoryRepositories.selectCategoryById(id);
+  console.log(findCategory);
+
   if (!findCategory.length) {
     throw makeError({ message: "Essa categoria não existe", status: 400 });
   }
 
   const updatedData: Category = { name };
-  return await categoryRepositories.updateCategory(id, updatedData);
+  await categoryRepositories.updateCategory(id, updatedData);
+
+  return { msg: "categoryUpdated", id, name };
 };
 
 const deleteCategoryById = async (id: string) => {
   const findCategory = await categoryRepositories.selectCategoryById(id);
+  console.log(findCategory);
+
   if (!findCategory) {
     throw makeError({ message: "Essa categoria não existe", status: 400 });
   }
 
   const category = await categoryRepositories.deleteCategory(id);
+  console.log(category);
   if (!category) {
     throw makeError({
       message: "Categoria não pôde ser deletada",
       status: 409,
     });
   }
+
+  return { msg: "Categoria deletada" };
 };
 
 export default {

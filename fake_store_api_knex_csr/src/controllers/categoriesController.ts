@@ -27,9 +27,9 @@ const insert = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const name = req.body.name;
 
-    const id: number[] = await categoryServices.insertCategory(name);
+    const category = await categoryServices.insertCategory(name);
 
-    res.status(201).json({ id: id[0], name });
+    res.status(201).json(category);
   } catch (error: any) {
     next(error);
   }
@@ -40,9 +40,9 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
     const id: string = req.params.id;
     const name = req.body.name;
 
-    await categoryServices.updateCategoryById(id, name);
+    const result = await categoryServices.updateCategoryById(id, name);
 
-    res.status(200).json({ msg: "categoryUpdated" });
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -52,11 +52,10 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id: string = req.params.id;
 
-    await categoryServices.deleteCategoryById(id);
+    const result = await categoryServices.deleteCategoryById(id);
 
-    res.status(200).json({ msg: "Categoria deletada" });
+    res.status(200).json(result);
   } catch (error) {
-    next(error);
     next(error);
   }
 };
