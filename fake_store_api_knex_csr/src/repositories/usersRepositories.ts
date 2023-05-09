@@ -18,10 +18,7 @@ const getUser: (login: { [key: string]: string | number }) => Promise<{
   password: string;
   id: number;
 }> = async (where) => {
-  const user: User[] = await knexInstance
-    .select("*")
-    .from("users")
-    .where(where);
+  const user = await knexInstance.select("*").from("users").where(where);
 
   return user[0];
 };

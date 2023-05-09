@@ -15,7 +15,10 @@ const newUser = async (req: Request, res: Response, next: NextFunction) => {
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user: { login: string; password: string } = req.body;
+    console.log(user);
     const token = await usersServices.loginUser(user);
+    console.log(token);
+
     res.status(200).json({ token });
   } catch (error) {
     next(error);

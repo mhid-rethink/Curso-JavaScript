@@ -27,14 +27,23 @@ const loginUser = async ({
   login: string;
   password: string;
 }) => {
-  const userFromDataBase = await usersRepositories.getUser({ login });
-  const verify = await bcrypt.compare(password, userFromDataBase.password);
+  const userFromDatabase = await usersRepositories.getUser({ login });
+  const verify = await bcrypt.compare(password, userFromDatabase.password);
 
-  if (!verify || !userFromDataBase)
-    throw makeError({ message: "Usuário ou senha inválido", status: 400 });
-  return jwt.sign({ userId: userFromDataBase.id }, process.env.SECRET_TOKEN!, {
-    expiresIn: "7 days",
-  });
+  console.log("userFromDatabase");
+  console.log(userFromDatabase);
+  console.log("verify");
+  console.log(verify);
+
+  if (!verify) throw makeError({ message: "erro de login", status: 500 });
+
+  return jwt.sign(
+    {
+      userId: userFromDatabase.id,
+    },
+    process.env.SECRET_TOKEN!,
+    { expiresIn: "7 days" }
+  );
 };
 
 export default { createUser, loginUser };
