@@ -1,0 +1,21 @@
+/* junção de propriedades de forma resumida e legivel
+    Os css abaixo fazem a mesma coisa:
+ */
+
+h1 {
+  font-style: italic;
+  font-weight: bold;
+  font-size: 0.8em;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  font: italic bold 0.8em Arial, sans-serif;
+}
+
+/* 
+  não considera propriedades anteriores
+  valores não especificados assumem valor padrão
+  geralmente, a ordem descrita não importa, mas se houverem muitas propriedades
+  com valor semelhante, podem haver problemas
+ */

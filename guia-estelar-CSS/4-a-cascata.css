@@ -1,0 +1,22 @@
+/* 
+Arquivo é lido de cima para baixo, o que esta mais abaixo sobrescreve o que está acima
+É considerado:
+1. Origem
+2. Especificidade
+3. Importância
+
+Origem: inline > tag style > tag link
+
+Especificidade: cada seletor eorigem possuem um valor diferente
+0. Universal
+1. Element type
+10. Classe e attribute
+100. ID
+1000. Inline
+ */
+
+/* at rules
+  regras com @
+  @media: condicional para dispositivos
+  @import: incluir css externo
+ */

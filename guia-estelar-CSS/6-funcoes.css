@@ -1,0 +1,9 @@
+/* Funções: nome, abre e fecha parenteses, recebe arugmentos */
+
+@import url("http://url.com/style.css");
+
+/* funções rgb e calc */
+h1 {
+  color: rgb(255, 0, 100);
+  width: calc(100% - 10px);
+}
