@@ -14,8 +14,7 @@ const getProductById = async (
   url = "https://fakestoreapi.com/products/"
 ) => {
   try {
-    const localUrl = url + id;
-    const request = await fetch(localUrl);
+    const request = await fetch(url + id);
     const requestJson = await request.json();
 
     return requestJson;
@@ -26,8 +25,7 @@ const getProductById = async (
 // console.log(getProducts(1));
 const getAllCategories = async (url = "https://fakestoreapi.com/products/") => {
   try {
-    const localUrl = url + "categories";
-    const request = await fetch(localUrl);
+    const request = await fetch(url + "categories");
     const requestJson = await request.json();
 
     return requestJson;
@@ -41,8 +39,7 @@ const getProductByCategory = async (
   url = "https://fakestoreapi.com/products/category/"
 ) => {
   try {
-    const localUrl = url + categoryParam;
-    const request = await fetch(localUrl);
+    const request = await fetch(url + categoryParam);
     const requestJson = await request.json();
 
     return requestJson;
