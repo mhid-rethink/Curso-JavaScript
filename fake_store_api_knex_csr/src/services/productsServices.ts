@@ -2,8 +2,9 @@ import { makeError } from "../middlewares/errorHandler";
 import productsRepositories from "../repositories/productsRepositories";
 
 type ProductParams = {
+  id?: string;
   title: string;
-  pice: number;
+  price: number;
   description: string;
   image: string;
   rating?: {
@@ -37,16 +38,23 @@ const createProduct = async (product: ProductParams) => {
 };
 
 const selectAll = async () => {
-  const products = await productsRepositories.selectAllProducts();
+  const products: ProductParams[] =
+    await productsRepositories.selectAllProducts();
   const productsMap = products.map((product) => {
     return {
-      ...product,
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      image: product.image,
+      category: product.category,
       rating: {
         rate: product.rate,
         count: product.count,
       },
     };
   });
+
   return productsMap;
 };
 
@@ -60,7 +68,38 @@ const selectById = async (id: string) => {
 
   const productsMap = products.map((product) => {
     return {
-      ...product,
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      image: product.image,
+      category: product.category,
+      rating: {
+        rate: product.rate,
+        count: product.count,
+      },
+    };
+  });
+
+  return productsMap;
+};
+
+const selectByName = async (name: string) => {
+  const products: ProductParams[] =
+    await productsRepositories.selectProductByName(name);
+
+  if (!products.length) {
+    throw makeError({ message: "Esse produto não existe", status: 400 });
+  }
+
+  const productsMap = products.map((product) => {
+    return {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      image: product.image,
+      category: product.category,
       rating: {
         rate: product.rate,
         count: product.count,
@@ -114,6 +153,7 @@ export default {
   createProduct,
   selectAll,
   selectById,
+  selectByName,
   udpateProduct,
   deleteProduct,
 };

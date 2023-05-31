@@ -6,6 +6,7 @@ const knexInstance = knex(knexConfig);
 type Category = {
   id?: number;
   name: string;
+  image: string;
 };
 
 const selectAllCategories = async () => {
@@ -25,6 +26,7 @@ const selectCategoryById = async (id: string) => {
 const selectProductsByCategory = async (id: string) => {
   return await knexInstance("products")
     .select(
+      "products.id",
       "products.title",
       "products.price",
       "products.description",
@@ -37,10 +39,8 @@ const selectProductsByCategory = async (id: string) => {
     .where({ category_id: id });
 };
 
-const insertCategory = async (name: string) => {
-  return await knexInstance("categories").insert({
-    name,
-  });
+const insertCategory = async (category: Category) => {
+  return await knexInstance("categories").insert(category);
 };
 
 const updateCategory = async (id: string, category: Category) => {

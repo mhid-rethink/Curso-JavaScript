@@ -15,9 +15,11 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
 
-    const productsMap = await productsServices.selectById(id);
+    const productsMap = isNaN(parseInt(id))
+      ? await productsServices.selectByName(id)
+      : await productsServices.selectById(id);
 
-    res.status(200).json(productsMap[0]);
+    res.status(200).json(isNaN(parseInt(id)) ? productsMap : productsMap[0]);
   } catch (error) {
     next(error);
   }

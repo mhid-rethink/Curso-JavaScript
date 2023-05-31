@@ -25,11 +25,11 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
 
 const insert = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const name = req.body.name;
+    const category = req.body;
 
-    const category = await categoryServices.insertCategory(name);
+    const newCategory = await categoryServices.insertCategory(category);
 
-    res.status(201).json(category);
+    res.status(201).json(newCategory);
   } catch (error: any) {
     next(error);
   }
@@ -38,9 +38,9 @@ const insert = async (req: Request, res: Response, next: NextFunction) => {
 const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id: string = req.params.id;
-    const name = req.body.name;
+    const udpatedCategory = req.body;
 
-    const result = await categoryServices.updateCategoryById(id, name);
+    const result = await categoryServices.updateCategoryById(id, udpatedCategory);
 
     res.status(200).json(result);
   } catch (error) {

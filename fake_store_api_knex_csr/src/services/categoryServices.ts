@@ -4,16 +4,19 @@ import categoryRepositories from "../repositories/categoryRepositories";
 type Category = {
   id?: number;
   name: string;
+  image: string;
 };
 
 const selectAll = async () => {
   const categories = await categoryRepositories.selectAllCategories();
-  const reducer = (acc: string[], curr: Category): string[] => {
-    acc.push(curr.name);
-    return acc;
-  };
-  const categoriesNames: string[] = categories.reduce(reducer, []);
-  return categoriesNames;
+  
+  const categoriesMap: Category[] = categories.map((category) => {
+    return {
+      name: category.name,
+      image: category.image,
+    };
+  });
+  return categoriesMap;
 };
 
 const selectProductByCategory = async (category: string) => {
@@ -45,17 +48,17 @@ const selectProductByCategory = async (category: string) => {
   return formatedProducts;
 };
 
-const insertCategory = async (name: string) => {
-  const findCategory = await categoryRepositories.verifyCategory(name);
+const insertCategory = async (category: Category) => {
+  const findCategory = await categoryRepositories.verifyCategory(category.name);
   if (findCategory.length) {
     throw makeError({ message: "Essa categoria já existe", status: 422 });
   }
 
-  const id: number[] = await categoryRepositories.insertCategory(name);
-  return { id: id[0], name };
+  const id: number[] = await categoryRepositories.insertCategory(category);
+  return { id: id[0], category };
 };
 
-const updateCategoryById = async (id: string, name: string) => {
+const updateCategoryById = async (id: string, udpatedCategory: Category) => {
   const findCategory = await categoryRepositories.selectCategoryById(id);
   console.log(findCategory);
 
@@ -63,10 +66,9 @@ const updateCategoryById = async (id: string, name: string) => {
     throw makeError({ message: "Essa categoria não existe", status: 400 });
   }
 
-  const updatedData: Category = { name };
-  await categoryRepositories.updateCategory(id, updatedData);
+  await categoryRepositories.updateCategory(id, udpatedCategory);
 
-  return { msg: "categoryUpdated", id, name };
+  return { msg: "categoryUpdated", udpatedCategory };
 };
 
 const deleteCategoryById = async (id: string) => {

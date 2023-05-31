@@ -7,10 +7,10 @@ export const productPathValidator = async (
   next: NextFunction
 ) => {
   try {
-    const paramsData = parseInt(req.params.id);
+    const paramsData = req.params.id;
     const productData = req.body;
 
-    const paramsSchema = number().required("Id é obrigatório").min(1);
+    const paramsSchema = string().required("Id é obrigatório").min(1);
 
     const productSchema = object({
       title: string(),
@@ -69,17 +69,13 @@ const categoryIdValidator = async (
   next: NextFunction
 ) => {
   try {
-    const categoryData = req.body;
+    const categoryData = req.params;
 
     const paramsSchema = object({
-      category: string().required("Id é obrigatório"),
+      category: string().required("Nome da categoria é obrigatório"),
     });
 
-    const categorySchema = object({
-      name: string().required("Nome da categoria é obrigatório"),
-    });
-
-    await categorySchema.validate(categoryData);
+    await paramsSchema.validate(categoryData);
     next();
   } catch (error) {
     next(error);

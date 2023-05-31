@@ -5,7 +5,7 @@ const knexInstance = knex(knexConfig);
 
 type Product = {
   title: string;
-  pice: number;
+  price: number;
   description: string;
   image: string;
   rating?: {
@@ -31,6 +31,7 @@ const insertProduct = async (product: Product) => {
 const selectAllProducts = async () => {
   return await knexInstance("products")
     .select(
+      "products.id",
       "products.title",
       "products.price",
       "products.description",
@@ -45,6 +46,7 @@ const selectAllProducts = async () => {
 const selectProductById = async (id: string) => {
   return await knexInstance("products")
     .select(
+      "products.id",
       "products.title",
       "products.price",
       "products.description",
@@ -55,6 +57,22 @@ const selectProductById = async (id: string) => {
     )
     .join("categories", "categories.id", "=", "products.category_id")
     .where({ "products.id": id });
+};
+
+const selectProductByName = async (name: string) => {
+  return await knexInstance("products")
+    .select(
+      "products.id",
+      "products.title",
+      "products.price",
+      "products.description",
+      "products.image",
+      "products.rate",
+      "products.count",
+      "categories.name as category"
+    )
+    .join("categories", "categories.id", "=", "products.category_id")
+    .where("products.title", "like", `%${name}%`);
 };
 
 const udpateProductById = async (id: string, updatedProduct: Product) => {
@@ -71,6 +89,7 @@ export default {
   insertProduct,
   selectAllProducts,
   selectProductById,
+  selectProductByName,
   udpateProductById,
   deleteProductById,
 };
